@@ -4,7 +4,7 @@ from rest_framework.renderers import JSONRenderer
 class EmployeeSerializer(serializers.Serializer):
 
     class Meta:
-        model = Employee
+        model = Employees
         fields = ('__all__')
 
 
@@ -14,7 +14,7 @@ class DepartmentsSerializer(serializers.Serializer):
         model = Departments
         fields = ('__all__')
 
-class DeptEmprializer(serializers.Serializer):
+class DeptEmpSerializer(serializers.Serializer):
 
     class Meta:
         model = DeptEmp

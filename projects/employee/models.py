@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.admin.models import LogEntry
 
 class Employees(models.Model):
@@ -10,9 +11,10 @@ class Employees(models.Model):
     birth_date = models.DateField(blank=True, null=True)
     first_name = models.CharField(max_length=14, blank=True, null=True)
     last_name = models.CharField(max_length=16, blank=True, null=True)
-    gender = models.CharField(choices=GENDER, blank=True, null=True)
+    gender = models.CharField(choices=GENDER, max_length=1, blank=True, null=True)
     hire_date = models.DateField(blank=True, null=True)
-
+    def __unicode__(self):
+        return self.emp_no
 class Departments(models.Model):
     # DEPARTMENT = (
     #     ('d009', 'Customer Service'),
@@ -27,20 +29,27 @@ class Departments(models.Model):
     # )
     dept_no = models.CharField(help_text='department no.', max_length=4, unique=True, blank=True, null=True)
     dept_name = models.CharField(max_length=40, unique=True, blank=True, null=True)
+    def __unicode__(self):
+        return self.dept_no
 
 class DeptEmp(models.Model):
-    emp_no = models.Foreigenkey(Employees, related_name = 'employee number', blank = True, null = True)
-    dept_no = models.Foreigenkey(Departments, related_name= 'departemnt number', blank = True, null = True)
+    emp_no = models.ForeignKey(Employees, on_delete=models.CASCADE, blank = True, null = True)
+    dept_no = models.ForeignKey(Departments, on_delete=models.CASCADE, blank = True, null = True)
+    def __unicode__(self):
+        return self.emp_no
 
 class Titles(models.Model):
-    emp_no = models.Foreigenkey(Employees, related_name = 'employee number', blank = True, null = True)
+    emp_no = models.ForeignKey(Employees, on_delete=models.CASCADE, blank = True, null = True)
     title = models.CharField(max_length=40, unique=True, blank=True, null=True)
     from_date = models.DateField(blank=True, unique=True, null=True)
     to_date = models.DateField()
+    def __unicode__(self):
+        return self.title
 
 class Salaries(models.Model):
-    emp_no = models.Foreigenkey(Employees, related_name = 'employee number', on_delete=models.CASCADE, blank = True, null = True)
+    emp_no = models.ForeignKey(Employees, on_delete=models.CASCADE, blank = True, null = True)
     salary = models.IntegerField(blank=True, null=True)
     from_date = models.DateField(blank=True, unique=True, null=True)
     to_date = models.DateField(blank=True, null=True)
-
+    def __unicode__(self):
+        return self.from_date

@@ -1,5 +1,6 @@
 ### install postgres
 $ brew install postgres
+$ brew install postgresql
 ### start postgres
 $ brew service start postgres
 ### create db 
